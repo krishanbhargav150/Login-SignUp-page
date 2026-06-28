@@ -1,0 +1,78 @@
+import { useState } from 'react';
+import './App.css';
+import LoginForm from './components/LoginForm';
+import SignUpForm from './components/SignUpForm';
+import useLogin from './hooks/useLogin';
+import useDisableSignUpButton from './hooks/useDisable';
+import { signUp } from './services/signUpService';
+
+function AuthForm() {
+    const [isLogin, setIsLogin] = useState(true);
+    const {
+        email, 
+        setEmail, 
+        password, 
+        setPassword, 
+        showPassword, 
+        setShowPassword, 
+        isFormValid, 
+        errors, 
+        submitLogin, 
+        confirmPassword, 
+        setConfirmPassword
+    } = useLogin();
+
+    const isSignUpDisabled = useDisableSignUpButton(email, password, confirmPassword);
+
+    const submitSignup = async () => {
+    try {
+        const response = await signUp(email, password);
+
+        console.log("Signup Success:", response);
+
+    } catch (error) {
+        console.error(error.message);
+    }
+};
+
+    
+
+  return (
+    <div className="container">
+        <div className="form-container">
+            <div className="form-toggle">
+                <button className= {isLogin ? 'active' : ''} onClick={() => setIsLogin(true)} >Login</button>
+                <button className= {!isLogin ? 'active' : ''} onClick={() => setIsLogin(false)}>Sign Up</button>
+            </div>
+            {
+                isLogin ? <> 
+                    <LoginForm
+                        email={email}
+                        password={password}
+                        onEmailChange={(e) => setEmail(e.target.value)}
+                        onPasswordChange={(e) => setPassword(e.target.value)}
+                        submitLogin={submitLogin}
+                        errors={errors}
+                        isFormValid={isFormValid}
+                        showPassword={showPassword}
+                        onSetShowPassword={() => setShowPassword(!showPassword)}
+                        onSwitchToSignup={() => setIsLogin(false)}
+                    />
+                    </> : 
+                    <SignUpForm
+                        email={email}
+                        password={password}
+                        confirmPassword={confirmPassword}
+                        onEmailChange={(e) => setEmail(e.target.value)}
+                        onPasswordChange={(e) => setPassword(e.target.value)}
+                        onConfirmPasswordChange={(e) => setConfirmPassword(e.target.value)}
+                        isSignUpDisabled={isSignUpDisabled}
+                        signUp={submitSignup}
+                    />
+            }
+        </div>
+    </div>
+  );
+}
+
+export default AuthForm;

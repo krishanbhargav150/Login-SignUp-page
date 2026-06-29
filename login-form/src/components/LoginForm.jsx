@@ -8,12 +8,12 @@ function LoginForm({
     password,
     onEmailChange,
     onPasswordChange,
-    submitLogin,
     errors,
     isFormValid,
     showPassword,
     onSetShowPassword,
     onSwitchToSignup,
+    onLoginUser
 }) {
     return (
         <div className='form'>
@@ -47,7 +47,7 @@ function LoginForm({
                         Forgot Password?
                     </a>
 
-                    <Button disabled={!isFormValid} onClick={submitLogin}>
+                    <Button disabled={!isFormValid} onClick={onLoginUser}>
                         Login
                     </Button>
 

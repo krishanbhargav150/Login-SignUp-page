@@ -5,6 +5,7 @@ import SignUpForm from './components/SignUpForm';
 import useLogin from './hooks/useLogin';
 import useDisableSignUpButton from './hooks/useDisable';
 import { signUp } from './services/signUpService';
+import { loginUser } from './services/loginService';
 
 function AuthForm() {
     const [isLogin, setIsLogin] = useState(true);
@@ -33,8 +34,15 @@ function AuthForm() {
     } catch (error) {
         console.error(error.message);
     }
-};
+}
 
+    const submitUserLogin = async () => {
+        try {
+            await loginUser(email, password);
+        } catch (error) {
+            console.error("Error logging in:", error);
+        }
+    };
     
 
   return (
@@ -51,12 +59,12 @@ function AuthForm() {
                         password={password}
                         onEmailChange={(e) => setEmail(e.target.value)}
                         onPasswordChange={(e) => setPassword(e.target.value)}
-                        submitLogin={submitLogin}
                         errors={errors}
                         isFormValid={isFormValid}
                         showPassword={showPassword}
                         onSetShowPassword={() => setShowPassword(!showPassword)}
                         onSwitchToSignup={() => setIsLogin(false)}
+                        onLoginUser={submitUserLogin}
                     />
                     </> : 
                     <SignUpForm

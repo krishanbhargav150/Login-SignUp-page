@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import './App.css';
 import LoginForm from './components/LoginForm';
 import SignUpForm from './components/SignUpForm';
@@ -24,6 +24,8 @@ function AuthForm() {
     } = useLogin();
 
     const isSignUpDisabled = useDisableSignUpButton(email, password, confirmPassword);
+    const refObject = useRef(0);
+    let valueWithoutRef = 0;
 
     const submitSignup = async () => {
     try {
@@ -38,6 +40,10 @@ function AuthForm() {
 
     const submitUserLogin = async () => {
         try {
+            // usecase of useRef to maintain a mutable value that persists across renders
+            console.log("checking useRef", refObject.current++);
+            console.log("checking value without ref", valueWithoutRef++);
+
             await loginUser(email, password);
         } catch (error) {
             console.error("Error logging in:", error);

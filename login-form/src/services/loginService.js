@@ -7,7 +7,7 @@ export async function loginUser(email, password) {
     console.log(url);
 
     try {
-        console.log(`Email: ${email}, Password: ${password}`);
+        //console.log(`Email: ${email}, Password: ${password}`);
         const response = await fetch(url, {
             method: 'GET',
         });

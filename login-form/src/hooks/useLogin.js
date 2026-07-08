@@ -15,6 +15,7 @@ function useLogin() {
         const [confirmPassword, setConfirmPassword] = useState("");
 
 
+
         const submitLogin = () => {
 
         const newErrors = {
@@ -41,10 +42,6 @@ function useLogin() {
             console.log("Validation errors:", newErrors);
             return;
         }
-
-        console.log("Email:", email);
-        console.log("Password:", password);
-
     }
 
 
